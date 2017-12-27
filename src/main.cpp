@@ -45,13 +45,13 @@ void loop() {
   ADT7410GetTemp();
   finalTempC = (tempReading / 128.0);
 
-  if (finalTempC > 17.8 && executed == false) {
+  if (finalTempC > 19 && executed == false) {
     generateUIHot();
 
     executed = true;
   }
 
-  if (finalTempC <= 17.8 && executed == true) {
+  if (finalTempC <= 19 && executed == true) {
     generateUICool();
 
     executed = false;

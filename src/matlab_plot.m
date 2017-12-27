@@ -1,20 +1,9 @@
-%%real time data plot from a serial port 
-% This matlab script is for ploting a graph by accessing serial port data in
-% real time. Change the com values and all variable values accroding to
-% your requirements. Dont forget to add terminator in to your serial device program.
-% This script can be modified to be used on any platform by changing the
-% serialPort variable. 
-% Author: Moidu thavot.
-
-%%Clear all variables
-
 clear all;
-%%Variables (Edit yourself)
 
 SerialPort='COM3'; %serial port
 MaxDeviation = 3;%Maximum Allowable Change from one value to next 
 TimeInterval=0.5;%time interval between each input.
-loop=100;%count values
+loop=1;%count values
 %%Set up the serial port object
 
 s = serial(SerialPort)
@@ -66,7 +55,7 @@ while ~isequal(count,loop)
     %%Re creating Serial port before timeout
     
     k=k+1;  
-    if k==25
+    if k==100
         fclose(s);
 delete(s);
 clear s;        
