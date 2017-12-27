@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <BPMonoItalic.h>
 #include <DSPI.h>
+#include <Display7Seg.h>
 #include <DisplayCore.h>
 #include <ILI9340.h>
 #include <Wire.h>
@@ -11,42 +12,80 @@
 
 DSPI0 spi;
 
-ILI9340 tft(spi, 7, 6, 5); // cd dc rst
+ILI9340 tft(spi, 7, 6, 5); // cs dc rst
 
 int tempReading = 0;
-
+bool executed = false;
 float finalTempC = 0.0000;
 
 void ADT7410INIT();
 void ADT7410GetTemp();
+void generateUIHot();
+void generateUICool();
 
 void setup() {
-  // ADT
-  Serial.begin(9600);
+  // ADT - I2C
   Wire.begin();
   ADT7410INIT();
 
-  // Screen
+  // Serial Communication for plotting data
+  Serial.begin(9600);
+
+  // SCREEN - SPI
   tft.initializeDevice();
-  tft.fillScreen(Color::Red);
+  tft.fillScreen(Color::NavyBlue);
   tft.setTextColor(Color::White, Color::Black);
+  tft.fillCircle(120, 160, 80, Color::White);
   tft.setFont(Fonts::BPMonoItalic22);
+  tft.setCursor(20, 20);
+  tft.print("COMP 2017-2018");
 }
 
 void loop() {
-  // Function for reading the temp
   ADT7410GetTemp();
-
-  tft.setCursor(50, 40);
   finalTempC = (tempReading / 128.0);
+
+  if (finalTempC > 17.8 && executed == false) {
+    generateUIHot();
+
+    executed = true;
+  }
+
+  if (finalTempC <= 17.8 && executed == true) {
+    generateUICool();
+
+    executed = false;
+  }
+
+  tft.setTextColor(Color::NavyBlue, Color::White);
+  tft.setCursor(60, 150);
+  tft.setFont(Fonts::Display7Seg32);
   tft.print(finalTempC);
+  Serial.println(finalTempC);
+  tft.setFont(Fonts::BPMonoItalic30);
+  tft.print(" C");
   delay(500);
 }
 
+void generateUIHot() {
+  tft.fillScreen(Color::Red);
+  tft.setTextColor(Color::White, Color::Black);
+  tft.fillCircle(120, 160, 80, Color::White);
+  tft.setFont(Fonts::BPMonoItalic22);
+  tft.setCursor(20, 20);
+  tft.print("COMP 2017-2018");
+}
+
+void generateUICool() {
+  tft.fillScreen(Color::NavyBlue);
+  tft.setTextColor(Color::White, Color::Black);
+  tft.fillCircle(120, 160, 80, Color::White);
+  tft.setFont(Fonts::BPMonoItalic22);
+  tft.setCursor(20, 20);
+  tft.print("COMP 2017-2018");
+}
+
 void ADT7410INIT() {
-  // Initialization of the ADT7410 sets the configuration register based on
-  // input from the  Analog Devices datasheet page 14. 16-bit resolution
-  // selected.
   Wire.beginTransmission(B1001000);
   Wire.send(0x03);
   Wire.send(B10000000);
