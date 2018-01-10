@@ -6,17 +6,32 @@
 #include <ILI9340.h>
 #include <Wire.h>
 
+/* COMP PROJECT 2017-2018 Francisco João Cunha Dias and Rafael Magalhães Gomes
+Kraemer Demonstration of SPI, I2C and UART communictaion protocols, interfacing
+with ADT7410 and an ILI9340 screen. For UART demonstration purposes, a plot with
+real time data will be made using an external program.
+*/
+
+// Defining the custom ports in the microcontroller egarding the ILI9340 tft
+// screen
+#define cs 7
+#define dc 6
+#define rst 5
+
+// Defining the register addresses on the ADT7410 according to the datasheet
 #define ADT7410Address 0x48
 #define ADT7410TempReg 0x00
 #define ADT7410ConfigReg 0x03
 
 DSPI0 spi;
-
-ILI9340 tft(spi, 7, 6, 5); // cs dc rst
+ILI9340 tft(spi, cs, dc, rst);
 
 int tempReading = 0;
-bool executed = false;
 float finalTempC = 0.0000;
+
+// the "executed" boolean is a "checker" for avoiding the constant execution of
+// an UI function, making the microcontroller SLOW and unresponsive.
+bool executed = false;
 
 void ADT7410INIT();
 void ADT7410GetTemp();
@@ -31,7 +46,7 @@ void setup() {
   // Serial Communication for plotting data
   Serial.begin(9600);
 
-  // SCREEN - SPI
+  // SCREEN - SPI - Default initialization parameters
   tft.initializeDevice();
   tft.fillScreen(Color::NavyBlue);
   tft.setTextColor(Color::White, Color::Black);
@@ -68,6 +83,9 @@ void loop() {
 }
 
 void generateUIHot() {
+  /* This function will generate a "HOT UI" based on the temperature fetched
+  from the sensor and a limit established in the loop function.
+  */
   tft.fillScreen(Color::Red);
   tft.setTextColor(Color::White, Color::Black);
   tft.fillCircle(120, 160, 80, Color::White);
@@ -77,6 +95,9 @@ void generateUIHot() {
 }
 
 void generateUICool() {
+  /* This function will generate a "COOL UI" based on the temperature fetched
+  from the sensor and a limit established in the loop function.
+  */
   tft.fillScreen(Color::NavyBlue);
   tft.setTextColor(Color::White, Color::Black);
   tft.fillCircle(120, 160, 80, Color::White);
@@ -86,6 +107,9 @@ void generateUICool() {
 }
 
 void ADT7410INIT() {
+  /*Function for initialization of the ADT7410, sending the parameters to the
+  registers specified in the datasheet
+  */
   Wire.beginTransmission(B1001000);
   Wire.send(0x03);
   Wire.send(B10000000);
@@ -93,6 +117,10 @@ void ADT7410INIT() {
 }
 
 void ADT7410GetTemp() {
+  /* Function for getting the temperature from ADT7410, called in the "loop"
+  according to the delay time. Everytime this is called a new temperature value
+  is fetched from the ADT7410.
+  */
   byte MSB;
   byte LSB;
   // Send request for temperature register.

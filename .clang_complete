@@ -1,14 +1,13 @@
 -IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\cores\pic32
 -IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\variants\Uno32
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\src
--IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\include
+-IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\libraries\DTWI
+-IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\libraries\Wire
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\lib\DisplayCore-master
+-IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\.piolibdeps\Display7Seg_ID1110
 -IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\libraries\DSPI
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\lib\ILI9340-master
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\.piolibdeps\BPMonoItalic_ID1088
--IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\.piolibdeps\Display7Seg_ID1110
--IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\libraries\DTWI
--IC:\Users\rafae\.platformio\packages\framework-arduinomicrochippic32\libraries\Wire
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\lib\DisplayCore-master
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\lib\DisplayCore-master
 -IC:\Users\rafae\Documents\PlatformIO\Projects\171217-124906-uno_pic32\lib\ILI9340-master
@@ -65,7 +64,7 @@
 -DF_CPU=80000000L
 -DMPIDEVER=16777998
 -DMPIDE=150
--DPLATFORMIO=30500
+-DPLATFORMIO=30501
 -D_BOARD_UNO_
 -DARDUINO=10803
 -DARDUINO_ARCH_PIC32
