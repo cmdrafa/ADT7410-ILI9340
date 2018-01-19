@@ -12,8 +12,8 @@ with ADT7410 and an ILI9340 screen. For UART demonstration purposes, a plot with
 real time data will be made using an external program.
 */
 
-// Defining the custom ports in the microcontroller egarding the ILI9340 tft
-// screen
+/* Defining the custom ports in the microcontroller regarding the
+ILI9340 tft screen*/
 #define cs 7
 #define dc 6
 #define rst 5
