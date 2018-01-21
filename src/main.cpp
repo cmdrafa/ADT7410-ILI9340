@@ -12,17 +12,18 @@ with ADT7410 and an ILI9340 screen. For UART demonstration purposes, a plot with
 real time data will be made using an external program.
 */
 
+// Defining the register addresses on the ADT7410 according to the datasheet
+#define ADT7410Address 0x48
+#define ADT7410TempReg 0x00
+#define ADT7410ConfigReg 0x03
+
 /* Defining the custom ports in the microcontroller regarding the
 ILI9340 tft screen*/
 #define cs 7
 #define dc 6
 #define rst 5
 
-// Defining the register addresses on the ADT7410 according to the datasheet
-#define ADT7410Address 0x48
-#define ADT7410TempReg 0x00
-#define ADT7410ConfigReg 0x03
-
+// Instantiate object class regarding DSPI
 DSPI0 spi;
 ILI9340 tft(spi, cs, dc, rst);
 
@@ -110,8 +111,8 @@ void ADT7410INIT() {
   /*Function for initialization of the ADT7410, sending the parameters to the
   registers specified in the datasheet
   */
-  Wire.beginTransmission(B1001000);
-  Wire.send(0x03);
+  Wire.beginTransmission(ADT7410Address);
+  Wire.send(ADT7410ConfigReg);
   Wire.send(B10000000);
   Wire.endTransmission();
 }
